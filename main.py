@@ -1,16 +1,18 @@
-# This is a sample Python script.
+import requests
+from bs4 import BeautifulSoup as BS
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+link = "https://dnd.su/race/"
+responce = requests.get(link).text
+soup = BS(responce, 'lxml')
 
+block = soup.find('div', class_ = "articles-tiles")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+result = ""
 
+length = len(block.find_all('span', class_ = "article_title"))
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+for i in range(length):
+    anime = block.find_all('span', class_ = "article_title")[i].text
+    result += anime + ", "
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(result)
